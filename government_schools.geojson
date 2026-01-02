@@ -1,0 +1,70 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Govt High School, Adyar",
+        "type": "school",
+        "capacity": 500,
+        "status": "available"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [80.2600, 13.0060]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Corporation School, T-Nagar",
+        "type": "school",
+        "capacity": 300,
+        "status": "available"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [80.2300, 13.0400]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Govt Higher Secondary School, Mylapore",
+        "type": "school",
+        "capacity": 450,
+        "status": "unavailable"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [80.2700, 13.0300]
+      }
+    },
+     {
+      "type": "Feature",
+      "properties": {
+        "name": "Chennai Public School, Anna Nagar",
+        "type": "school",
+        "capacity": 600,
+        "status": "available"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [80.2100, 13.0850]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Govt Model School, Velachery",
+        "type": "school",
+        "capacity": 400,
+        "status": "available"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [80.2200, 12.9800]
+      }
+    }
+  ]
+}

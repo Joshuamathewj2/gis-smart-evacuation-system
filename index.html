@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIS-Based Disaster Evacuation Assistance System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="landing-container">
+        <div class="landing-card">
+            <h1>GIS-Based Evacuation Assistance</h1>
+            
+            <form id="evacuationForm">
+                <div class="form-group">
+                    <label for="latitude">Latitude</label>
+                    <input type="number" id="latitude" class="form-control" placeholder="e.g. 13.0827" step="any" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="longitude">Longitude</label>
+                    <input type="number" id="longitude" class="form-control" placeholder="e.g. 80.2707" step="any" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="type">Destination Type</label>
+                    <select id="type" class="form-control" required>
+                        <option value="school">Government School (Shelter)</option>
+                        <option value="hospital">Government Hospital (Medical)</option>
+                    </select>
+                </div>
+
+                <p id="errorMsg" class="error-message">Invalid Coordinates. Please check your inputs.</p>
+
+                <button type="submit" class="btn-primary">Find Nearest Evacuation Center</button>
+                <div style="margin-top: 10px; font-size: 0.8rem; color: #7f8c8d;">
+                    <a href="#" id="useCurrentLocation">Use Current Location</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

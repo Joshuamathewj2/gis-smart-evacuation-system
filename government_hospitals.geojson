@@ -1,0 +1,70 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Govt General Hospital",
+        "type": "hospital",
+        "capacity": 1000,
+        "status": "available"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [80.2750, 13.0800]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Stanley Medical College Hospital",
+        "type": "hospital",
+        "capacity": 800,
+        "status": "available"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [80.2880, 13.1070]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kilpauk Medical College Hospital",
+        "type": "hospital",
+        "capacity": 600,
+        "status": "available"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [80.2400, 13.0800]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Royapettah Govt Hospital",
+        "type": "hospital",
+        "capacity": 400,
+        "status": "unavailable"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [80.2650, 13.0550]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Adyar Cancer Institute",
+        "type": "hospital",
+        "capacity": 550,
+        "status": "available"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [80.2500, 13.0030]
+      }
+    }
+  ]
+}
