@@ -4,7 +4,7 @@
  * bundled evacuation data, and CDN dependencies.
  */
 
-const CACHE_NAME = 'evac-gis-v2.1';
+const CACHE_NAME = 'evac-gis-v2.2';
 
 const PRECACHE_ASSETS = [
     './',

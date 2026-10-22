@@ -1079,3 +1079,9 @@ html, body {
         border: 1px solid #999;
     }
 }
+
+img.brand-icon {
+    background: none;
+    padding: 0;
+    border-radius: 9px;
+}

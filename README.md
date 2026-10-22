@@ -1,4 +1,11 @@
-# GIS Smart Evacuation Assistant 🚨
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/logo/logo-full-dark.svg">
+    <img src="docs/logo/logo-full.svg" alt="Evac Assistant" width="560">
+  </picture>
+</p>
+
+# GIS Smart Evacuation Assistant
 
 An intelligent, client-side, offline-first disaster evacuation assistant deployable on GitHub Pages with zero backend dependencies. Designed for stressful crisis situations, it computes real-time safe evacuation routes using live OpenStreetMap shelter data, OSRM road routing, multi-criteria hazard avoidance, and real-time environmental alerts.
 
@@ -72,6 +79,7 @@ gis-smart-evacuation-system/
 │   ├── icon-192.png           # 192x192 PWA app icon
 │   ├── icon-512.png           # 512x512 PWA app icon
 │   └── icon.svg               # Vector SVG app icon
+├── docs/logo/                 # Logo lockups for light and dark backgrounds
 ├── js/
 │   ├── app.js                 # Central orchestrator: map, UI, events, state
 │   ├── ui.js                  # DOM renderer: plans, steps, ranked list, modals
