@@ -1,0 +1,22 @@
+{
+  "name": "gis-smart-evacuation-system",
+  "version": "2.0.0",
+  "description": "Smart GIS-based disaster evacuation assistant with live OSM shelter data, OSRM road routing, multi-criteria hazard ranking, offline PWA support, and real-time hazard layers.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "serve": "node server.js"
+  },
+  "keywords": [
+    "gis",
+    "evacuation",
+    "disaster-management",
+    "leaflet",
+    "osrm",
+    "overpass-api",
+    "pwa",
+    "offline-first"
+  ],
+  "author": "Joshua A (Joshuamathewj2)",
+  "license": "MIT"
+}

@@ -1,46 +1,219 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIS-Based Disaster Evacuation Assistance System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="theme-color" content="#b71c1c">
+    <meta name="description" content="Intelligent GIS-based disaster evacuation assistant with live OSM shelter data, OSRM road routing, multi-criteria hazard avoidance, and offline PWA support.">
+    <title>GIS Smart Evacuation Assistant - Real-Time Disaster Navigation</title>
+
+    <!-- PWA Manifest & App Icons -->
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+    <!-- Leaflet 1.9.4 CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <!-- Leaflet.draw 1.0.4 CSS (Pinned CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+
+    <!-- Application CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="landing-container">
-        <div class="landing-card">
-            <h1>GIS-Based Evacuation Assistance</h1>
-            
-            <form id="evacuationForm">
-                <div class="form-group">
-                    <label for="latitude">Latitude</label>
-                    <input type="number" id="latitude" class="form-control" placeholder="e.g. 13.0827" step="any" required>
+    <div class="app-container">
+        <!-- Top App Navigation & Emergency Bar -->
+        <header class="app-header" role="banner">
+            <div class="brand-section">
+                <div class="brand-icon" aria-hidden="true">🚨</div>
+                <div>
+                    <h1 class="brand-title">GIS Evacuation Assistant</h1>
+                    <div class="brand-subtitle">Real-Time Shelter Routing & Hazard Avoidance</div>
                 </div>
-                
-                <div class="form-group">
-                    <label for="longitude">Longitude</label>
-                    <input type="number" id="longitude" class="form-control" placeholder="e.g. 80.2707" step="any" required>
+            </div>
+
+            <div class="header-badges">
+                <div id="networkStatusBadge" class="status-badge online" aria-live="polite">
+                    <span style="color:#10b981;">●</span> Online (Live OSM)
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button type="button" id="pwaInstallBtn" class="btn-icon" style="display: none;" title="Install Evacuation App for Offline Access">
+                    📲 <span>Install</span>
+                </button>
+                <button type="button" id="btnThemeToggle" class="btn-icon" title="Toggle Dark/Light High-Contrast Mode" aria-label="Toggle Theme">
+                    ☀️
+                </button>
+                <button type="button" id="btnEmergencyNumbers" class="btn-icon emergency" title="Open Emergency Numbers (India 112)" aria-haspopup="dialog">
+                    📞 <span>112 Helplines</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Dynamic Control & Filter Bar -->
+        <nav class="control-bar" role="navigation" aria-label="Evacuation controls and filters">
+            <!-- Search / Geolocation Input -->
+            <div class="search-box-wrapper">
+                <div class="search-input-group">
+                    <input type="text" id="searchAddress" class="search-input"
+                           placeholder="Search address, landmark, city..."
+                           aria-label="Search address or location" autocomplete="off">
+                    <button type="button" id="btnLocateMe" class="btn-locate" title="Find current GPS coordinates">
+                        🎯 Locate Me
+                    </button>
+                </div>
+                <div id="autocompleteDropdown" class="autocomplete-dropdown" role="listbox" aria-label="Address search results"></div>
+            </div>
+
+            <!-- Disaster Type Pills -->
+            <div class="disaster-pills" role="radiogroup" aria-label="Select disaster type for suitability scoring">
+                <button type="button" class="pill-btn active" data-disaster="general" role="radio" aria-checked="true">
+                    ⚡ General
+                </button>
+                <button type="button" class="pill-btn" data-disaster="flood" role="radio" aria-checked="false">
+                    🌊 Flood
+                </button>
+                <button type="button" class="pill-btn" data-disaster="cyclone" role="radio" aria-checked="false">
+                    🌀 Cyclone
+                </button>
+                <button type="button" class="pill-btn" data-disaster="earthquake" role="radio" aria-checked="false">
+                    🏚️ Earthquake
+                </button>
+                <button type="button" class="pill-btn" data-disaster="fire" role="radio" aria-checked="false">
+                    🔥 Fire
+                </button>
+            </div>
+
+            <!-- Profile & Radius Options -->
+            <div class="filter-group">
+                <select id="travelProfileSelect" class="select-control" aria-label="Travel Profile">
+                    <option value="driving">🚗 Driving (Road)</option>
+                    <option value="foot">🚶 Walking (Foot)</option>
+                </select>
+
+                <select id="searchRadiusSelect" class="select-control" aria-label="Search Radius">
+                    <option value="2000">Radius: 2 km</option>
+                    <option value="5000" selected>Radius: 5 km</option>
+                    <option value="10000">Radius: 10 km</option>
+                    <option value="15000">Radius: 15 km</option>
+                    <option value="25000">Radius: 25 km</option>
+                </select>
+
+                <select id="facilityTypeFilter" class="select-control" aria-label="Facility Filter">
+                    <option value="all">All Safe Facilities</option>
+                    <option value="hospital">Hospitals & Clinics</option>
+                    <option value="school">Schools & Colleges</option>
+                    <option value="shelter">Designated Shelters</option>
+                    <option value="assembly_point">Open Assembly Points</option>
+                    <option value="community_centre">Community Centres</option>
+                </select>
+
+                <label class="checkbox-label" title="Prioritize hospitals and urgent medical triage camps">
+                    <input type="checkbox" id="medicalPriorityCheck">
+                    <span>🏥 Medical Priority</span>
+                </label>
+            </div>
+        </nav>
+
+        <!-- Main Content Workspace (Split Map + Sidebar) -->
+        <main class="main-workspace">
+            <!-- Left Sidebar Navigation & Plan Panel -->
+            <aside id="sidebar" class="sidebar" aria-label="Evacuation Plan & Shelter List">
+                <div class="sidebar-scrollable">
+                    <!-- Clean Print Header (Visible only on print/PDF) -->
+                    <div class="print-only-header" style="display: none;">
+                        <h1>EMERGENCY EVACUATION PLAN</h1>
+                        <p>Issued by GIS Smart Evacuation Assistant · Keep this printout accessible during power/network outage</p>
+                    </div>
+
+                    <!-- Weather & Environmental Alerts Widget -->
+                    <div id="weatherWidgetContainer"></div>
+
+                    <!-- Primary Plan Recommendation Card -->
+                    <div id="primaryPlanContainer"></div>
+
+                    <!-- Turn-by-Turn Route Steps Accordion -->
+                    <div id="routeStepsContainer"></div>
+
+                    <!-- Ranked Facility Alternatives -->
+                    <div id="rankedListContainer"></div>
+                </div>
+            </aside>
+
+            <!-- Map Viewport -->
+            <section class="map-viewport" aria-label="Interactive Evacuation Map">
+                <div id="map" role="application" aria-label="Map displaying evacuation routes, shelters, and hazard zones"></div>
+
+                <!-- Floating Map Tools -->
+                <div class="map-floating-bar" role="toolbar" aria-label="Map drawing tools">
+                    <button type="button" id="btnRecenter" class="map-tool-btn" title="Center map on your origin" aria-label="Recenter Map">
+                        🎯
+                    </button>
+                    <button type="button" id="btnDrawPolygon" class="map-tool-btn" title="Draw Hazard Zone (Polygon)" aria-label="Draw Hazard Polygon">
+                        ✏️
+                    </button>
+                    <button type="button" id="btnDrawCircle" class="map-tool-btn" title="Draw Hazard Zone (Buffer Circle)" aria-label="Draw Hazard Circle">
+                        ⭕
+                    </button>
+                    <button type="button" id="btnClearHazards" class="map-tool-btn" title="Clear all user-drawn hazard zones" aria-label="Clear Hazards">
+                        🗑️
+                    </button>
+                    <button type="button" id="btnToggleEarthquakes" class="map-tool-btn" title="Toggle Live Earthquakes Layer (USGS M2.5+)" aria-label="Toggle Earthquakes">
+                        🌋
+                    </button>
                 </div>
 
-                <div class="form-group">
-                    <label for="type">Destination Type</label>
-                    <select id="type" class="form-control" required>
-                        <option value="school">Government School (Shelter)</option>
-                        <option value="hospital">Government Hospital (Medical)</option>
-                    </select>
-                </div>
+                <!-- Mobile Drawer Toggle Button -->
+                <button type="button" id="mobileDrawerToggle" class="mobile-drawer-toggle" aria-controls="sidebar">
+                    📋 View Evacuation Plan
+                </button>
+            </section>
+        </main>
+    </div>
 
-                <p id="errorMsg" class="error-message">Invalid Coordinates. Please check your inputs.</p>
+    <!-- Emergency Helplines Modal -->
+    <div id="emergencyModal" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="emergencyModalTitle">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="emergencyModalTitle" class="modal-title">🚨 Emergency Helplines</h2>
+                <button type="button" id="modalCloseBtn" class="modal-close" aria-label="Close dialog">&times;</button>
+            </div>
 
-                <button type="submit" class="btn-primary">Find Nearest Evacuation Center</button>
-                <div style="margin-top: 10px; font-size: 0.8rem; color: #7f8c8d;">
-                    <a href="#" id="useCurrentLocation">Use Current Location</a>
-                </div>
-            </form>
+            <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                Tap any contact below to dial directly. Configured for India national hotlines by default; custom local numbers can be saved below.
+            </div>
+
+            <div id="emergencyPhoneGrid" class="emergency-phone-grid"></div>
+
+            <div style="border-top: 1px solid var(--card-border); padding-top: 1rem; margin-top: 1rem;">
+                <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem;">Add Custom Local / Family Contact</h3>
+                <form id="customNumberForm" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                        <input type="text" id="customContactTitle" class="search-input" placeholder="Name / Role (e.g. Local Warden)" required style="border: 1px solid var(--card-border); border-radius: 4px;">
+                        <input type="tel" id="customContactNumber" class="search-input" placeholder="Phone Number" required style="border: 1px solid var(--card-border); border-radius: 4px;">
+                    </div>
+                    <input type="text" id="customContactDesc" class="search-input" placeholder="Brief note / address (optional)" style="border: 1px solid var(--card-border); border-radius: 4px;">
+                    <button type="submit" class="btn-locate" style="border-radius: 4px; justify-content: center;">
+                        + Save Custom Contact
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+    <!-- Pinned Leaflet & Leaflet.draw Dependencies -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+    <!-- Main ES Module Entry Point -->
+    <script type="module" src="js/app.js"></script>
 </body>
 </html>
