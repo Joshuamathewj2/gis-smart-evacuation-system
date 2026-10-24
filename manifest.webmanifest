@@ -1,0 +1,30 @@
+{
+  "name": "GIS Smart Evacuation Assistant",
+  "short_name": "EvacGIS",
+  "description": "Intelligent client-side disaster evacuation assistant with live shelter data, road routing, and hazard avoidance.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#121820",
+  "theme_color": "#b71c1c",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

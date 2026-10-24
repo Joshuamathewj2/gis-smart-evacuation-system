@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" width="100%" height="100%">
+  <defs>
+    <clipPath id="full-shield-pin-clip">
+      <path d="M 256 72
+               C 340 72 384 104 384 140
+               V 264
+               C 384 340 304 408 256 440
+               C 208 408 128 340 128 264
+               V 140
+               C 128 104 172 72 256 72
+               Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- Left Mark Container (Scaled to 220x220, positioned at x=50, y=50) -->
+  <g transform="translate(50, 50) scale(0.4296875)">
+    <!-- Squircle container -->
+    <rect width="512" height="512" rx="112" fill="#0F172A"/>
+    <rect x="6" y="6" width="500" height="500" rx="106" fill="none" stroke="#1E293B" stroke-width="4"/>
+
+    <!-- Reticle Crosshairs -->
+    <path d="M 256 40 V 64 M 256 448 V 472 M 40 256 H 64 M 448 256 H 472"
+          stroke="#334155" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- Shield-Pin Base -->
+    <path d="M 256 72
+             C 340 72 384 104 384 140
+             V 264
+             C 384 340 304 408 256 440
+             C 208 408 128 340 128 264
+             V 140
+             C 128 104 172 72 256 72
+             Z"
+          fill="#1E293B" stroke="#334155" stroke-width="6"/>
+
+    <!-- Clipped Interior -->
+    <g clip-path="url(#full-shield-pin-clip)">
+      <!-- Sanctuary Zone (Green) -->
+      <rect x="120" y="64" width="272" height="184" fill="#10B981"/>
+
+      <!-- Shelter House (White) -->
+      <path d="M 256 116 L 326 172 H 300 V 244 H 212 V 172 H 186 Z" fill="#FFFFFF"/>
+      <path d="M 242 244 V 204 A 14 14 0 0 1 270 204 V 244 Z" fill="#0F172A"/>
+      <circle cx="256" cy="208" r="4.5" fill="#10B981"/>
+
+      <!-- Hazard Zone (Red) -->
+      <path d="M 256 440 C 304 408 384 340 384 264 V 248 H 282 C 278 296 324 318 308 362 C 294 394 270 422 256 440 Z" fill="#DC2626"/>
+      <path d="M 298 280 C 334 290 364 300 374 330" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.45"/>
+      <path d="M 330 354 C 316 380 292 400 274 416" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.45"/>
+
+      <!-- Evacuation Road -->
+      <path d="M 174 386 C 174 330 204 308 216 278 C 228 248 256 256 256 232"
+            fill="none" stroke="#FFFFFF" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M 174 386 C 174 330 204 308 216 278 C 228 248 256 256 256 232"
+            fill="none" stroke="#0F172A" stroke-width="4.5" stroke-dasharray="7 9" stroke-linecap="round"/>
+
+      <!-- GPS Origin & Waypoint -->
+      <circle cx="174" cy="386" r="11" fill="#DC2626" stroke="#FFFFFF" stroke-width="3.5"/>
+      <circle cx="174" cy="386" r="4" fill="#FFFFFF"/>
+      <circle cx="204" cy="316" r="5" fill="#FFFFFF"/>
+    </g>
+  </g>
+
+  <!-- Wordmark Section (Tuned for light backgrounds) -->
+  <g>
+    <!-- Brand Name -->
+    <text x="310" y="172" font-family="Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="92" font-weight="700" letter-spacing="-1.5">
+      <tspan fill="#DC2626">Evac</tspan> <tspan fill="#0F172A">Assistant</tspan>
+    </text>
+
+    <!-- Subtitle -->
+    <text x="314" y="218" font-family="Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" letter-spacing="3.5" fill="#047857">
+      GIS EMERGENCY ROUTING &amp; SHELTER DISCOVERY
+    </text>
+
+    <!-- Live Routing Badge -->
+  </g>
+</svg>
